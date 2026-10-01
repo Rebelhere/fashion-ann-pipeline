@@ -1,0 +1,17 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Editor
+.vscode/
+
+# DVC cache and credentials (never commit these)
+.dvc/cache
+.dvc/tmp/
+.dvc/config.local
+client_secret*.json
+credentials*.json
+
+# Model files are tracked by DVC, not Git
+*.h5
