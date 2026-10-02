@@ -1,0 +1,2 @@
+scratch notes - to be deleted later
+TODO: move scripts into src/
