@@ -1,0 +1,90 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+    - path: src/prepare.py
+      hash: md5
+      md5: 7e4b9ddaae9f8b1b92717ce1a1b03182
+      size: 696
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: 23b0000338669d2c61217dbd94633aa0.dir
+      size: 54950512
+      nfiles: 4
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 23b0000338669d2c61217dbd94633aa0.dir
+      size: 54950512
+      nfiles: 4
+    - path: src/preprocess.py
+      hash: md5
+      md5: afec6d50a5a305bac627b65dfc97efa1
+      size: 1584
+    params:
+      params.yaml:
+        preprocess.seed: 42
+        preprocess.test_size: 0.2
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: 8b4df49c35afe3f7010d4d857cc78afe.dir
+      size: 219590768
+      nfiles: 6
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 8b4df49c35afe3f7010d4d857cc78afe.dir
+      size: 219590768
+      nfiles: 6
+    - path: src/train.py
+      hash: md5
+      md5: 5df4b892f806f527ea93585ac62ba5cb
+      size: 1873
+    params:
+      params.yaml:
+        train.batch_size: 32
+        train.dense_units: 128
+        train.dropout_rate: 0.2
+        train.epochs: 10
+        train.learning_rate: 0.001
+    outs:
+    - path: models
+      hash: md5
+      md5: 0a5e2eb3c1ba057c412bc789e3eda65f.dir
+      size: 1246112
+      nfiles: 2
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/processed/x_test.npy
+      hash: md5
+      md5: b2ec522e81e966822712b8ecf0af1412
+      size: 31360128
+    - path: data/processed/y_test.npy
+      hash: md5
+      md5: e6d24ffff98bc973b3c14df1b4a56631
+      size: 10128
+    - path: models/model.h5
+      hash: md5
+      md5: 6e32a5bbf31baa86fa240ff5e24618be
+      size: 1245272
+    - path: src/evaluate.py
+      hash: md5
+      md5: 3604b6dc0ab14e7abc42529b30c3d1b3
+      size: 1859
+    outs:
+    - path: confusion_matrix.png
+      hash: md5
+      md5: 9f4f6c21806c01a149ce85ef9401a43f
+      size: 54023
+    - path: metrics.json
+      hash: md5
+      md5: 31a0d76336ea3d9057d2ed6e04bd8871
+      size: 80

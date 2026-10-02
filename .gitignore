@@ -15,3 +15,5 @@ credentials*.json
 
 # Model files are tracked by DVC, not Git
 *.h5
+/models
+/confusion_matrix.png
