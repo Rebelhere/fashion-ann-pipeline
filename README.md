@@ -20,4 +20,4 @@ pip install tensorflow pyyaml scikit-learn matplotlib "dvc[gdrive]"
 ```
 
 ## Status
-Work in progress. This project uses Fashoin-MNIST from Keras.
+Work in progress. This project uses Fashion-MNIST from Keras.
