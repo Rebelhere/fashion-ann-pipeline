@@ -20,9 +20,13 @@ def main():
     x_test = np.load(os.path.join(RAW_DIR, "x_test.npy"))
     y_test = np.load(os.path.join(RAW_DIR, "y_test.npy"))
 
-    # normalize pixel values from [0, 255] to [-1, 1]
-    x_train = x_train.astype("float32") / 127.5 - 1.0
-    x_test = x_test.astype("float32") / 127.5 - 1.0
+    # normalize pixel values: scale to [0, 1], then standardize
+    # with the training mean and std
+    x_train = x_train.astype("float32") / 255.0
+    x_test = x_test.astype("float32") / 255.0
+    mean, std = x_train.mean(), x_train.std()
+    x_train = (x_train - mean) / std
+    x_test = (x_test - mean) / std
 
     # split training data into train and validation
     x_train, x_val, y_train, y_val = train_test_split(
